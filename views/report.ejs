@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Report</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Booking Report</h1>
+    </header>
+    <main>
+        <h2>Report for the User: <%= userId %></h2>
+        <h3>From: <%= startDate %> to <%= endDate %></h3>
+            <table>
+                <tbody>
+                    <% bookings.forEach(booking => { %>
+                        <tr>
+                            <td><%= booking.name %></td>
+                            <td><%= booking.userId %></td>
+                            <td><%= booking.dateTime.toISOString() %></td>
+                            <td><%= booking.cardDetails.cardNumber %></td>
+                            <td><%= booking.cardDetails.expiry %></td>
+                            <td><%= booking.cardDetails.securityCode %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        <br><a href="/">Back to Booking Form</a>
+    </main>
+</body>
+</html>

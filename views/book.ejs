@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/styles.css"> 
+    <script>
+        function validateForm() {
+            // Get the form inputs
+            const cardNumber = document.forms["bookingForm"]["cardNumber"].value;
+            const expiry = document.forms["bookingForm"]["expiry"].value;
+            const securityCode = document.forms["bookingForm"]["securityCode"].value;
+            
+            // Here I put Validation, if cardNumber, expiry, and securityCode are anything
+            // but numbers there be an error at the top of the page
+            // Validate card number format and digits, - between mm and yy
+            const cardNumberDigits = cardNumber.replace(/-/g, '');
+            if (!/^\d{16}$/.test(cardNumberDigits)) { 
+                alert("Card number must be a valid 16-digit number."); 
+                return false; // stops form submission
+            }
+            const expiryMatch = expiry.match(/^(\d{2})-(\d{2})$/);
+            
+            if (!expiryMatch) {
+                alert("Expiry date must be in the format MM-YY.");
+                return false; 
+            }
+        
+            if (isNaN(securityCode) || securityCode === "") {
+                alert("Security code must be a valid number.");
+                return false; 
+            }
+
+            return true; // submits the form
+        }
+    </script>
+</head>
+<body>
+    <header>   
+        <h1>🌈 Welcome to Blink</h1>
+        <nav class="navbar">
+    
+        <p>Your cozy companion for mindful screen time</p>
+        <div class="mascot">🐻</div>
+        <nav>
+    <a href="/welcome" class="start-btn">sign Up</a>
+    <a href="/book">🏠 Home</a> |
+    <a href="/about">About</a> 
+    <a href="/screen-time">screentime</a>
+    <a href="/help">Help</a>
+ </nav>
+
+  </header>
+  <section class="intro">
+    <p>Track your habits, earn cute badges, and give your brain a bubble bath 🛁</p>
+    <a href="/book" class="start-btn">Start Booking</a>
+  </section>
+
+  <footer>
+    <p>Made with 💖 by Vivian</p>
+  </footer>
+</body>
+</html>
+
+
+            </ul>
+        </nav>
+        
+        <form action="/book" method="POST" name ="bookingForm" onsubmit="return validateForm()">
+            <label>Name:</label>
+            <input type="text" name="name" required><br>
+            <label>User ID (10 characters):</label>
+            <input type="text" name="userId" maxlength="10" minlength="10" required><br>
+            <label>Training Date and Time:</label>
+            <input type="datetime-local" name="dateTime" required><br>
+            <h2>Payment Details</h2>
+            <label>Card Number:</label>
+            <input type="text" name="cardNumber" maxlength="19" minlength="19"required><br>
+            <label>Expiry Date:</label>
+            <input type="text" name="expiry" required><br>
+            <label>Security Code:</label>
+            <input type="text" name="securityCode"  maxlength="3" minlength="3"required><br>
+            <button type="submit">Submit</button>
+        </form>
+    </header>
+        <h2>Generate Booking Report</h2>
+        <form action="/report" method="GET">
+            <label for="userId">User ID:</label>
+            <input type="text" name="userId" placeholder="userId" required>
+    
+            <label for="startDate">Start Date:</label>
+            <input type="date" name="startDate" placeholder="startDate" required>
+    
+            <label for="endDate">End Date:</label>
+            <input type="date" name="endDate" placeholder="endDate" required>
+    
+            <button type="submit">submit</button>
+        </form>
+    <%- include('partials/footer') %>
+</body>
+</html>
