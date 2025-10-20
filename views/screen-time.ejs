@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/styles.css">
+  <nav>
+  <a href="/help">Help</a>
+  <a href="/about">About</a>
+  <a href="/">🏠 Back to Welcome</a>
+</nav>
+
+</head>
+
+<body>
+  <header>
+
+    <h1><%= title %></h1>
+    
+    <p>📱 People aged <%= stats.ageGroup %> spend an average of <strong><%= stats.averageHours %> hours</strong> on screens daily.</p>
+    <p>Top apps: <%= stats.topApps.join(', ') %></p>
+    <p>⏱️ You’ve spent <span id="blink-time"><%= totalTime %></span> seconds on Blink today.</p>
+
+  </header>
+
+  <section class="dashboard">
+    <h2>🌱 Cozy Alternatives</h2>
+    <ul>
+      <% recommendations.forEach(r => { %>
+        <li><%= r %></li>
+      <% }) %>
+    </ul>
+  </section>
+
+  <footer>
+    <p>Made with 💖 by Vivian</p>
+  </footer>
+
+  <!-- ✅ Screen Time Tracker Script -->
+  <script>
+ 
+  const startTime = Date.now();
+
+    window.addEventListener("beforeunload", () => {
+      const endTime = Date.now();
+      const duration = Math.round((endTime - startTime) / 1000); // seconds
+
+      fetch("/track-time", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ duration })
+      });
+    });
+</script>
+</body>
+
+  </script>
+</body>
+</html>
