@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <script>
+    function validateForm() {
+      const f = document.forms["bookingForm"];
+      const cardNumber = f["cardNumber"].value;
+      const expiry = f["expiry"].value;
+      const securityCode = f["securityCode"].value;
+
+      const cardNumberDigits = cardNumber.replace(/-/g, '');
+      if (!/^\d{16}$/.test(cardNumberDigits)) {
+        alert("Card number must be a valid 16-digit number.");
+        return false;
+      }
+      const expiryMatch = expiry.match(/^(\d{2})-(\d{2})$/);
+      if (!expiryMatch) {
+        alert("Expiry date must be in the format MM-YY.");
+        return false;
+      }
+      if (!/^\d{3}$/.test(securityCode)) {
+        alert("Security code must be a valid 3-digit number.");
+        return false;
+      }
+      return true;
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Welcome to Screen Time Tracker</h1>
+    <p>Your cozy companion for mindful screen time</p>
+    <div class="mascot">🐻</div>
+    <nav class="navbar">
+      <a href="/">🏠 Home</a> |
+      <a href="/about">About</a> |
+      <a href="/screen-time">Screentime</a> |
+      <a href="/help">Help</a>
+    </nav>
+  </header>
+
+  <section class="intro">
+    <p>Track your habits, earn cute badges, and give your brain a bubble bath 🛁</p>
+  </section>
+
+  <main>
+    <h2>Book a Session</h2>
+    <form action="/book" method="POST" name="bookingForm" onsubmit="return validateForm()">
+      <label>Name:</label>
+      <input type="text" name="name" required>
+
+      <label>User ID (10 characters):</label>
+      <input type="text" name="userId" maxlength="10" minlength="10" required>
+
+      <label>Training Date and Time:</label>
+      <input type="datetime-local" name="dateTime" required>
+
+      <h3>Payment Details</h3>
+      <label>Card Number (16 digits, dashes optional):</label>
+      <input type="text" name="cardNumber" placeholder="1234-5678-9012-3456" required>
+
+      <label>Expiry (MM-YY):</label>
+      <input type="text" name="expiry" placeholder="MM-YY" required>
+
+      <label>Security Code (3 digits):</label>
+      <input type="text" name="securityCode" maxlength="3" minlength="3" required>
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <h2>Generate Booking Report</h2>
+    <form action="/report" method="GET">
+      <label>User ID:</label>
+      <input type="text" name="userId" required>
+
+      <label>Start Date:</label>
+      <input type="date" name="startDate" required>
+
+      <label>End Date:</label>
+      <input type="date" name="endDate" required>
+
+      <button type="submit">Submit</button>
+    </form>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Mindful Screen Time App</p>
+  </footer>
+</body>
+</html>

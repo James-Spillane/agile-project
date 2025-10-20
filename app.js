@@ -20,6 +20,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/api', apiRouter);                    // <-- mount /api routes
 
+const bookRouter = require('./routes/book');
+app.use('/book', bookRouter);
+
+
 // 404 (must be last)
 app.use((req, res) => res.status(404).render('error', { title: 'Not Found' }));
 
