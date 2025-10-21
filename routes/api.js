@@ -2,6 +2,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Entry = require('../models/Entry');
+const Booking = require('../models/Booking');
+
 
 const router = express.Router();
 
@@ -28,6 +30,12 @@ router.post('/entries', async (req, res) => {
 router.get('/entries', async (_req, res) => {
   const entries = await Entry.find().sort({ createdAt: -1 }).limit(10);
   res.json(entries);
+});
+
+// List latest 10 bookings
+router.get('/bookings', async (_req, res) => {
+  const list = await Booking.find().sort({ createdAt: -1 }).limit(10);
+  res.json(list);
 });
 
 module.exports = router;

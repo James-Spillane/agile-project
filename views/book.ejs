@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title><%= title %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/css/style.css" />
   <script>
     function validateForm() {
@@ -30,9 +30,10 @@
     }
   </script>
 </head>
+
 <body>
   <header>
-    <h1>Welcome to Screen Time Tracker</h1>
+    <h1>Welcome to Blink</h1>
     <p>Your cozy companion for mindful screen time</p>
     <div class="mascot">🐻</div>
     <nav class="navbar">
@@ -45,46 +46,53 @@
 
   <section class="intro">
     <p>Track your habits, earn cute badges, and give your brain a bubble bath 🛁</p>
+    <a href="/book" class="start-btn">Sign Up</a>
   </section>
 
-  <main>
-    <h2>Book a Session</h2>
-    <form action="/book" method="POST" name="bookingForm" onsubmit="return validateForm()">
-      <label>Name:</label>
-      <input type="text" name="name" required>
+  <main class="grid">
+    <!-- Booking form -->
+    <section class="card">
+      <h2>Book a Session</h2>
+      <form action="/book" method="POST" name="bookingForm" onsubmit="return validateForm()">
+        <label>Name</label>
+        <input type="text" name="name" required>
 
-      <label>User ID (10 characters):</label>
-      <input type="text" name="userId" maxlength="10" minlength="10" required>
+        <label>User ID (10 characters)</label>
+        <input type="text" name="userId" maxlength="10" minlength="10" required>
 
-      <label>Training Date and Time:</label>
-      <input type="datetime-local" name="dateTime" required>
+        <label>Training Date and Time</label>
+        <input type="datetime-local" name="dateTime" required>
 
-      <h3>Payment Details</h3>
-      <label>Card Number (16 digits, dashes optional):</label>
-      <input type="text" name="cardNumber" placeholder="1234-5678-9012-3456" required>
+        <h3>Payment Details (demo only)</h3>
+        <label>Card Number</label>
+        <input type="text" placeholder="1234-5678-9012-3456">
 
-      <label>Expiry (MM-YY):</label>
-      <input type="text" name="expiry" placeholder="MM-YY" required>
+        <label>Expiry (MM-YY)</label>
+        <input type="text" placeholder="MM-YY">
 
-      <label>Security Code (3 digits):</label>
-      <input type="text" name="securityCode" maxlength="3" minlength="3" required>
+        <label>Security Code</label>
+        <input type="text" maxlength="3" minlength="3">
 
-      <button type="submit">Submit</button>
-    </form>
+        <!-- Optionally a checkbox to simulate payment -->
+        <label><input type="checkbox" name="paid" value="true"> Mark as paid (demo)</label>
 
-    <h2>Generate Booking Report</h2>
-    <form action="/report" method="GET">
-      <label>User ID:</label>
-      <input type="text" name="userId" required>
+        <button type="submit">Submit Booking</button>
+      </form>
+    </section>
 
-      <label>Start Date:</label>
-      <input type="date" name="startDate" required>
+    <!-- Login form -->
+    <section class="card">
+      <h2>Login</h2>
+      <form action="/login" method="POST" novalidate>
+        <label for="email">Email or Username</label>
+        <input type="text" id="email" name="email" required>
 
-      <label>End Date:</label>
-      <input type="date" name="endDate" required>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
 
-      <button type="submit">Submit</button>
-    </form>
+        <button type="submit">Login</button>
+      </form>
+    </section>
   </main>
 
   <footer>
