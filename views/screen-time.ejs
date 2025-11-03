@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title><%= title %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <a href="/help">Help</a>
+      <a href="/about">About</a>
+      <a href="/">🏠 Back to Welcome</a>
+    </nav>
+
+    <h1><%= title %></h1>
+    <p>📱 People aged <%= stats.ageGroup %> spend an average of <strong><%= stats.averageHours %> hours</strong> on screens daily.</p>
+    <p>Top apps: <%= stats.topApps.join(', ') %></p>
+    <p>⏱️ You’ve spent <span id="blink-time"><%= totalTime %></span> seconds on Blink today.</p>
+  </header>
+
+  <section class="dashboard">
+    <h2>🌱 Cozy Alternatives</h2>
+    <ul>
+      <% recommendations.forEach(r => { %>
+        <li><%= r %></li>
+      <% }) %>
+    </ul>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Mindful Screen Time App</p>
+  </footer>
+
+  <!-- ✅ Screen Time Tracker -->
+  <script>
+    const startTime = Date.now();
+
+    // Update the on-page counter live (optional)
+    const span = document.getElementById('blink-time');
+    setInterval(() => {
+      const secs = Math.round((Date.now() - startTime) / 1000);
+      span.textContent = (Number(<%- JSON.stringify(totalTime) %>) + secs).toString();
+    }, 1000);
+
+    window.addEventListener('beforeunload', () => {
+      const duration = Math.round((Date.now() - startTime) / 1000);
+      navigator.sendBeacon
+        ? navigator.sendBeacon('/track-time', new Blob([JSON.stringify({ duration })], { type: 'application/json' }))
+        : fetch('/track-time', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ duration })
+          });
+    });
+  </script>
+</body>
+</html>
