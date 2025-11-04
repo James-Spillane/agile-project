@@ -10,3 +10,4 @@ const bookingSchema = new mongoose.Schema({
 bookingSchema.index({ userId: 1, dateTime: -1 });
 
 module.exports = mongoose.model('Booking', bookingSchema);
+
