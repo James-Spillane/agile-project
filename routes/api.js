@@ -38,4 +38,13 @@ router.get('/bookings', async (_req, res) => {
   res.json(list);
 });
 
+// Debug route to confirm DB and entries count
+router.get('/debug/db', async (_req, res) => {
+  const name = mongoose.connection.name;
+  const host = mongoose.connection.host;
+  const count = await Entry.countDocuments();
+  res.json({ db: name, host, entries: count });
+});
+
+
 module.exports = router;

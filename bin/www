@@ -1,8 +1,9 @@
 #!/usr/bin/env node
+require('dotenv').config();
+
 const http = require('http');
 const app = require('../app');
 const connectDB = require('../config/db');
-require('dotenv').config();
 
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
