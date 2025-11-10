@@ -73,7 +73,6 @@
               <tr>
                 <td>${new Date(d.createdAt).toLocaleString()}</td>
                 <td>${d.screenTime ?? ''}</td>
-                <td>${d.tiktokHours ?? ''}</td>
                 <td>${d.sleepHours ?? ''}</td>
                 <td>${d.stress ?? ''}</td>
                 <td>${d.mood ?? ''}</td>
@@ -88,7 +87,6 @@
       msg.textContent = 'Saving…';
       const body = {
         screenTime: toNum(form.screenTime.value),
-        tiktokHours: toNum(form.tiktokHours.value),
         sleepHours: toNum(form.sleepHours.value),
         stress: toNum(form.stress.value),
         mood: toNum(form.mood.value)
