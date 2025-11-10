@@ -30,7 +30,6 @@ router.post('/track-time', async (req, res) => {
     await Entry.create({
       userId: 'anon',
       screenTime: hours,
-      tiktokHours: 0,
       sleepHours: 0,
       stress: undefined,
       mood: undefined
