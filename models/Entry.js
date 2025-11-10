@@ -9,7 +9,6 @@ const entrySchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  tiktokHours: Number,
   sleepHours: Number,
   stress: Number, // 1–10 scale
   mood: Number    // 1–10 scale
