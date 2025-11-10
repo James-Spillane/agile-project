@@ -3,8 +3,8 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Quicksand', sans-serif;
-  background-color: #ffe4ec;
-  color: #d6336c;
+  background-color: #fff8dc; /* light yellow background */
+  color: #b58900; /* golden brown text */
   line-height: 1.6;
 }
 
@@ -12,8 +12,8 @@ body {
 header {
   text-align: center;
   padding: 2rem 1rem;
-  background-color: #ffccdd;
-  border-bottom: 2px solid #f48fb1;
+  background-color: #ffeb99; /* warm yellow */
+  border-bottom: 2px solid #ffd54f;
 }
 
 header h1 {
@@ -41,7 +41,7 @@ nav a {
   margin: 0 1rem;
   text-decoration: none;
   font-weight: bold;
-  color: #d6336c;
+  color: #b58900;
 }
 
 nav a:hover {
@@ -64,8 +64,8 @@ section.dashboard {
 button,
 input[type="submit"] {
   display: inline-block;
-  background-color: #ff80ab;
-  color: white;
+  background-color: #ffca28; /* golden yellow */
+  color: #fff;
   padding: 0.6rem 1.2rem;
   margin: 1rem auto;
   border: none;
@@ -78,17 +78,17 @@ input[type="submit"] {
 .start-btn:hover,
 button:hover,
 input[type="submit"]:hover {
-  background-color: #f06292;
+  background-color: #ffb300; /* darker gold hover */
 }
 
 /* Form Styling */
 form {
   max-width: 600px;
   margin: 2rem auto;
-  background-color: #fff0f5;
+  background-color: #fffde7; /* very light yellow */
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 0 10px rgba(255, 128, 171, 0.3);
+  box-shadow: 0 0 10px rgba(255, 202, 40, 0.3);
 }
 
 form label {
@@ -101,7 +101,7 @@ form input {
   width: 100%;
   padding: 0.5rem;
   margin-top: 0.3rem;
-  border: 1px solid #f48fb1;
+  border: 1px solid #ffd54f;
   border-radius: 8px;
   background-color: #fff;
 }
@@ -111,9 +111,9 @@ footer {
   text-align: center;
   padding: 1rem;
   font-size: 0.9rem;
-  color: #c2185b;
-  background-color: #ffe4ec;
-  border-top: 2px solid #f48fb1;
+  color: #b58900;
+  background-color: #fff8dc;
+  border-top: 2px solid #ffd54f;
 }
 
 /* Booking List */
@@ -127,10 +127,28 @@ ul li {
   margin: 0.5rem 0;
   padding: 0.8rem;
   border-radius: 8px;
-  box-shadow: 0 0 5px rgba(255, 128, 171, 0.2);
+  box-shadow: 0 0 5px rgba(255, 202, 40, 0.2);
 }
 
-.card { background:#fff; padding:1rem 1.25rem; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,.06); }
-.muted { color:#666; }
-.table { width:100%; border-collapse: collapse; }
-.table th, .table td { border-bottom:1px solid #eee; padding:.5rem .6rem; text-align:left; }
+/* Cards & Tables */
+.card {
+  background: #fff;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, .06);
+}
+
+.muted {
+  color: #666;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th, .table td {
+  border-bottom: 1px solid #eee;
+  padding: .5rem .6rem;
+  text-align: left;
+}
