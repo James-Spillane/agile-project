@@ -3,8 +3,8 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Quicksand', sans-serif;
-  background-color: #fff0f5; /* light pink background */
-  color: #b03060; /* rose text */
+  background-color: #ffe4ec;
+  color: #d6336c;
   line-height: 1.6;
 }
 
@@ -12,8 +12,8 @@ body {
 header {
   text-align: center;
   padding: 2rem 1rem;
-  background-color: #ffe4ec; /* soft pastel pink */
-  border-bottom: 2px solid #ffb6c1;
+  background-color: #ffccdd;
+  border-bottom: 2px solid #f48fb1;
 }
 
 header h1 {
@@ -41,7 +41,7 @@ nav a {
   margin: 0 1rem;
   text-decoration: none;
   font-weight: bold;
-  color: #b03060;
+  color: #d6336c;
 }
 
 nav a:hover {
@@ -64,8 +64,8 @@ section.dashboard {
 button,
 input[type="submit"] {
   display: inline-block;
-  background-color: #ff69b4; /* bright pink */
-  color: #fff;
+  background-color: #ff80ab;
+  color: white;
   padding: 0.6rem 1.2rem;
   margin: 1rem auto;
   border: none;
@@ -73,37 +73,35 @@ input[type="submit"] {
   font-weight: bold;
   cursor: pointer;
   text-decoration: none;
-  box-shadow: 0 3px 6px rgba(255, 105, 180, 0.3);
 }
 
 .start-btn:hover,
 button:hover,
 input[type="submit"]:hover {
-  background-color: #ff1493; /* darker hot pink hover */
+  background-color: #f06292;
 }
 
 /* Form Styling */
 form {
   max-width: 600px;
   margin: 2rem auto;
-  background-color: #fff7fa; /* very light pink */
+  background-color: #fff0f5;
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 0 10px rgba(255, 182, 193, 0.3);
+  box-shadow: 0 0 10px rgba(255, 128, 171, 0.3);
 }
 
 form label {
   display: block;
   margin-top: 1rem;
   font-weight: bold;
-  color: #b03060;
 }
 
 form input {
   width: 100%;
   padding: 0.5rem;
   margin-top: 0.3rem;
-  border: 1px solid #ffb6c1;
+  border: 1px solid #f48fb1;
   border-radius: 8px;
   background-color: #fff;
 }
@@ -113,9 +111,9 @@ footer {
   text-align: center;
   padding: 1rem;
   font-size: 0.9rem;
-  color: #b03060;
-  background-color: #fff0f5;
-  border-top: 2px solid #ffb6c1;
+  color: #c2185b;
+  background-color: #ffe4ec;
+  border-top: 2px solid #f48fb1;
 }
 
 /* Booking List */
@@ -129,28 +127,5 @@ ul li {
   margin: 0.5rem 0;
   padding: 0.8rem;
   border-radius: 8px;
-  box-shadow: 0 0 5px rgba(255, 182, 193, 0.2);
-}
-
-/* Cards & Tables */
-.card {
-  background: #fff;
-  padding: 1rem 1.25rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(255, 105, 180, 0.15);
-}
-
-.muted {
-  color: #888;
-}
-
-.table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.table th, .table td {
-  border-bottom: 1px solid #ffe4ec;
-  padding: .5rem .6rem;
-  text-align: left;
+  box-shadow: 0 0 5px rgba(255, 128, 171, 0.2);
 }
