@@ -22,6 +22,7 @@ router.get('/screen-time', (req, res) => {
   });
 });
 
+
 // POST: called automatically when the user leaves the page
 router.post('/track-time', async (req, res) => {
   try {
