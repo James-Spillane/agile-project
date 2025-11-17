@@ -15,7 +15,6 @@ const app = express();                 // <-- create app FIRST
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static('public'));
 
 
 // Body parsers (must be before routes)
