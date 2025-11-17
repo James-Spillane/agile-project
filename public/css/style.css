@@ -106,9 +106,12 @@ form input {
   background-color: #fff;
 }
 
-.table {
+.table, th, td {
   width:100%;
-  table-layout:fixed
+  table-layout:fixed;
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 15px;
 }
 
 /* Footer */
