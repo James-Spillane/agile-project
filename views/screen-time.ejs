@@ -11,6 +11,7 @@
   <header>
     <nav class="navbar">
       <a href="/">🏠 Back to Home</a> |
+      <a href="/book">Log screen time</a> |
       <a href="/help">Help</a> |
       <a href="/about">About</a>
     </nav>
@@ -26,6 +27,19 @@
       <span id="blink-time"><%= totalTime %></span>
       seconds on Blink today.
     </p>
+
+    <% if (typeof lastEntryHours !== 'undefined' && lastEntryHours !== null) { %>
+    <p>
+      🕒 Your most recent logged screen time: 
+      <strong><%= lastEntryHours %> hours</strong>.
+    </p>
+    <% } else { %>
+      <p class="muted">
+        You haven’t logged any sessions yet.
+        <a href="/book">Log your first screen time entry</a>.
+      </p>
+    <% } %>
+
   </header>
 
 

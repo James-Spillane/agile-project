@@ -1,7 +1,8 @@
 // routes/screenTime.js
 const express = require('express');
 const router = express.Router();
-const Entry = require('../models/Entry');  // the same model you used for /api/entries
+
+const Entry = require('../models/Entry');
 const PopulationStat = require('../models/PopulationStat');
 
 // helper: returns percentage of people with value <= user's value
@@ -11,33 +12,36 @@ function percentileRank(sortedArray, value) {
   let countBelowOrEqual = 0;
   for (const v of sortedArray) {
     if (v <= value) countBelowOrEqual++;
-    else break; // array is sorted, so we can stop early
+    else break; // sorted, so we can stop
   }
 
   return Math.round((countBelowOrEqual / sortedArray.length) * 100);
 }
 
-// GET /screen-time page
+// GET /screen-time → show stats + Kaggle comparison
 router.get('/screen-time', async (req, res) => {
   try {
-    // For now, just use 'all' group.
-    // If your Kaggle import created age buckets (18-24, 25-34, etc)
-    // you can change this to one of those later.
     let ageGroup = 'all';
 
-    // Get population stats for this group
+    // population stats
     let pop = await PopulationStat.findOne({ ageGroup });
 
-    // If there's no 'all' group, just grab ANY one so the page doesn't break
+    // if no "all", fall back to first available group
     if (!pop) {
       pop = await PopulationStat.findOne();
       if (pop) ageGroup = pop.ageGroup;
     }
 
-    // Latest user entry from your own DB
+    // latest user entry
     const last = await Entry.findOne().sort({ createdAt: -1 });
 
     let comparison = null;
+    let lastEntryHours = null;          // ✅ define before use
+
+    if (last) {
+      lastEntryHours = last.screenTime;
+    }
+
     if (pop && last) {
       const percentile = percentileRank(pop.distribution || [], last.screenTime);
 
@@ -55,7 +59,6 @@ router.get('/screen-time', async (req, res) => {
       };
     }
 
-
     res.render('screen-time', {
       title: 'Screen Time',
       stats: {
@@ -63,42 +66,37 @@ router.get('/screen-time', async (req, res) => {
         averageHours: pop ? pop.avgScreenTime : 0,
         topApps: ['TikTok', 'Instagram', 'YouTube']
       },
-      totalTime: 0, // starting value for the on-page timer
+      totalTime: 0,
       recommendations: [
         'Try grayscale mode for a day',
         'Disable non-essential notifications',
         'Charge your phone outside the bedroom',
         'Set one hour as a no-phone zone before bed'
       ],
-      comparison
+      comparison,
+      lastEntryHours              // ✅ passed into view
     });
   } catch (err) {
-    console.error(err);
+    console.error('Error in GET /screen-time:', err);
     res.status(500).send('Error loading screen time page');
   }
 });
 
-
-
-// POST: called automatically when the user leaves the page
+// POST /track-time → log usage from beforeunload beacon
 router.post('/track-time', async (req, res) => {
   try {
-    const { duration } = req.body; // seconds spent on the page
-    const hours = Math.round((duration / 3600) * 100) / 100; // convert to hours
+    const { duration = 0 } = req.body; // seconds
+    const hours = Number((duration / 3600).toFixed(2));
+
     await Entry.create({
-      userId: 'anon',
-      screenTime: hours,
-      sleepHours: 0,
-      stress: undefined,
-      mood: undefined
+      screenTime: hours
     });
+
     res.status(201).json({ ok: true });
   } catch (err) {
-    console.error(err);
+    console.error('Error in POST /track-time:', err);
     res.status(500).json({ ok: false, error: err.message });
   }
 });
-
-
 
 module.exports = router;
