@@ -46,6 +46,30 @@ router.get('/screen-time', async (req, res) => {
       };
     }
 
+    // ✅ Dynamic feedback logic stays inside the route
+    let message = '';
+    let recommendations = [];
+    if (lastEntryHours !== null && pop) {
+      const Hoursaverage = pop.avgScreenTime;
+
+      if (lastEntryHours < Hoursaverage) {
+        message = `Great job! You spent less time than the average of ${Hoursaverage} hours.`;
+        recommendations = ['Nice work keeping your screen time low!'];
+      } else if (lastEntryHours === Hoursaverage) {
+        message = `You matched the average screen time of ${Hoursaverage} hours.`;
+        recommendations = ['You’re on track. Keep it up!'];
+      } else {
+        message = `You spent more time than the average of ${Hoursaverage} hours. Consider reducing your screen time for better well-being.`;
+        recommendations = [
+          'Touch some grass 🌱',
+          'Switch off notifications you don’t need',
+          'Try a fun offline activity',
+          'Charge your phone outside the bedroom',
+          'Set a 1-hour phone-free window before bed'
+        ];
+      }
+    }
+
     res.render('screen-time', {
       title: 'Screen Time',
       stats: {
@@ -54,9 +78,8 @@ router.get('/screen-time', async (req, res) => {
         topApps: ['TikTok', 'Instagram', 'YouTube']
       },
       totalTime: 0,
-      recommendations: [
-        'Touch some grass',
-      ],
+      recommendations,
+      message,
       comparison,
       lastEntryHours
     });
@@ -71,9 +94,7 @@ router.get('/track-time-test', (req, res) => {
   const duration = 0;
   const Hoursaverage = 5;
   const message = `You've just started tracking your screen time.`;
-  const recommendations = [
-    'chill without the phone for awhile',
-  ];
+  const recommendations = ['Chill without the phone for awhile'];
 
   res.render('screen-time', {
     title: 'Screen Time',
@@ -104,10 +125,10 @@ router.get('/view-time-test/:duration', (req, res) => {
     message = `You spent more time than the average of ${Hoursaverage} hours. Consider reducing your screen time for better well-being.`;
     recommendations = [
       'Touch some grass',
-      'switch off useless notifications',
-      'Do some fun activites offline',
+      'Switch off useless notifications',
+      'Do some fun activities offline',
       'Charge your phone outside the bedroom',
-      'Set 1 hour as a for no-access to the phone before bed'
+      'Set a 1-hour phone-free window before bed'
     ];
   }
 
@@ -121,4 +142,5 @@ router.get('/view-time-test/:duration', (req, res) => {
     lastEntryHours: null
   });
 });
+
 module.exports = router;
