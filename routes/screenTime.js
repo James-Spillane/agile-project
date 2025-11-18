@@ -55,10 +55,7 @@ router.get('/screen-time', async (req, res) => {
       },
       totalTime: 0,
       recommendations: [
-        'Try grayscale mode for a day',
-        'Disable non-essential notifications',
-        'Charge your phone outside the bedroom',
-        'Set one hour as a no-phone zone before bed'
+        'Touch some grass',
       ],
       comparison,
       lastEntryHours
@@ -75,10 +72,7 @@ router.get('/track-time-test', (req, res) => {
   const Hoursaverage = 5;
   const message = `You've just started tracking your screen time.`;
   const recommendations = [
-    'Try grayscale mode for a day',
-    'Disable non-essential notifications',
-    'Charge your phone outside the bedroom',
-    'Set 2 × 25-min focus blocks'
+    'chill without the phone for awhile',
   ];
 
   res.render('screen-time', {
@@ -105,14 +99,15 @@ router.get('/view-time-test/:duration', (req, res) => {
     recommendations = ['Good job for keeping your screen time low, buddy'];
   } else if (hours === Hoursaverage) {
     message = `You matched the average screen time of ${Hoursaverage} hours.`;
-    recommendations = ['You’re right on track. Keep it up!'];
+    recommendations = ['You’re on track. Keep it up!'];
   } else {
     message = `You spent more time than the average of ${Hoursaverage} hours. Consider reducing your screen time for better well-being.`;
     recommendations = [
       'Touch some grass',
-      'Disable non-essential notifications',
+      'switch off useless notifications',
+      'Do some fun activites offline',
       'Charge your phone outside the bedroom',
-      'Set 2 × 25-min focus blocks'
+      'Set 1 hour as a for no-access to the phone before bed'
     ];
   }
 
