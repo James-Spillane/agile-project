@@ -49,7 +49,7 @@
       <p><em><%= comparison.interpretation %></em></p>
     <% } else { %>
       <p class="muted">
-        Log your screen time on the <a href="/log">Log</a> page to see how you compare
+        Log your screen time on the <a href="/book">Log</a> page to see how you compare
         to the wider population.
       </p>
     <% } %>
@@ -81,19 +81,19 @@
       span.textContent = (Number(<%- JSON.stringify(totalTime) %>) + secs).toString();
     }, 1000);
 
-    window.addEventListener('beforeunload', () => {
-      const duration = Math.round((Date.now() - startTime) / 1000);
-      navigator.sendBeacon
-        ? navigator.sendBeacon(
-            '/track-time',
-            new Blob([JSON.stringify({ duration })], { type: 'application/json' })
-          )
-        : fetch('/track-time', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ duration })
-          });
-    });
+    // window.addEventListener('beforeunload', () => {
+    //  const duration = Math.round((Date.now() - startTime) / 1000);
+    //  navigator.sendBeacon
+    //    ? navigator.sendBeacon(
+    //        '/track-time',
+    //        new Blob([JSON.stringify({ duration })], { type: 'application/json' })
+    //      )
+    //    : fetch('/track-time', {
+    //       method: 'POST',
+    //        headers: { 'Content-Type': 'application/json' },
+    //      body: JSON.stringify({ duration })
+    //    });
+    //});
   </script>
 </body>
 </html>
