@@ -41,6 +41,8 @@
     </form>
   </main>
 
+  <p style="max-width: 560px; margin: 1.5rem auto;">Here's how screen time correlates to stress!</p>
+
   <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
 
 <script
@@ -49,6 +51,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
 </script>
 <script src="https://cdn.jsdelivr.net/npm/regression@2.0.1/dist/regression.min.js"></script>
 
+<div id="parent">
 <script>
 // const xValues = [50,60,70,80,90,100,110,120,130,140,150];
 // const yValues = [7,8,8,9,9,9,10,11,14,14,15];
@@ -73,15 +76,35 @@ console.log(my_regression)
       pointBackgroundColor: "rgba(0,0,255,1)",
       data: xyValues
     },
-    {
-      type:'line',
-      data:my_regression,
-       borderColor: 'red',
-        borderWidth: 2,
-        pointRadius: 0,
-      fill:false,
-    }]
+    // {
+    //   type:'line',
+    //   data:my_regression,
+    //    borderColor: 'red',
+    //     borderWidth: 2,
+    //     pointRadius: 0,
+    //   fill:false,
+    // }
+    ]
   },
+  options: {
+  scales: {
+    yAxes: [{
+      scaleLabel: {
+        display: true,
+        labelString: 'Screen Time'
+      }
+    }],
+    xAxes: [{
+
+      scaleLabel: {
+        display: true,
+        labelString: 'Stress'
+      }
+    }
+
+    ]
+  }     
+}
 });
 
       
@@ -93,6 +116,7 @@ console.log(my_regression)
 
 
 </script>
+</div>
 
   <section class="card" style="max-width: 720px; margin: 1.5rem auto;">
     <h3>Recent Entries</h3>

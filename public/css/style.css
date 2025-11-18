@@ -154,3 +154,12 @@ a.mascot1 {
   text-decoration: none;
   color: inherit;     /* Keep the same color as normal text or its parent */
 }
+
+#parent {
+    width: 30%;
+    margin: 0 auto;
+}
+
+canvas{
+    margin: 0 auto;
+    }
