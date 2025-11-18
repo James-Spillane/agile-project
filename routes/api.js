@@ -32,6 +32,11 @@ router.get('/entries', async (_req, res) => {
   res.json(entries);
 });
 
+router.get('/test', async (_req, res) => {
+  const entries = await Entry.find();
+  res.json(entries);
+});
+
 // List latest 10 bookings
 router.get('/bookings', async (_req, res) => {
   const list = await Booking.find().sort({ createdAt: -1 }).limit(10);
