@@ -15,12 +15,7 @@
       <a href="/help">Help</a> |
       <a href="/about">About</a>
     </nav>
-    <% if (typeof message !== 'undefined' && message) { %>
-    <section class="feedback-box">
-      <h2>📝 Your Screen Time Summary</h2>
-      <p><%= message %></p>
-    </section>
-    <% } %>
+    
 
 
     <h1><%= title %></h1>
@@ -79,7 +74,14 @@
   </section>
 
 
+
   <section class="dashboard">
+     <% if (typeof message !== 'undefined' && message) { %>
+    <section class="feedback-box">
+      <h2><a href="/mascot" class="mascot1">🐻</a> Your Screen Time Summary</h2>
+      <ul><li><%= message %></li></ul>
+    </section>
+    <% } %>
     <h2><a href="/mascot" class="mascot1">🐻</a> Cozy Alternatives</h2>
     <ul>
       <% recommendations.forEach(r => { %>
