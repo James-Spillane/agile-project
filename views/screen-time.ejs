@@ -9,16 +9,51 @@
 <body>
   <header>
     <nav class="navbar">
-      <a href="/help">Help</a>
+      <a href="/">🏠 Back to Home</a> |
+      <a href="/help">Help</a> |
       <a href="/about">About</a>
-      <a href="/">🏠 Back to Welcome</a>
     </nav>
 
     <h1><%= title %></h1>
-    <p>📱 People aged <%= stats.ageGroup %> spend an average of <strong><%= stats.averageHours %> hours</strong> on screens daily.</p>
+    <p>
+      📱 People aged 18-24 spend an average of
+      <strong><%= stats.averageHours %> hours</strong> on screens daily.
+    </p>
     <p>Top apps: <%= stats.topApps.join(', ') %></p>
-    <p>⏱️ You’ve spent <span id="blink-time"><%= totalTime %></span> seconds on Blink today.</p>
+    <p>
+      ⏱️ You’ve spent
+      <span id="blink-time"><%= totalTime %></span>
+      seconds on Blink today.
+    </p>
   </header>
+
+
+  <!-- NEW: Kaggle comparison card -->
+  <section class="card" style="max-width:720px; margin:1.5rem auto;">
+    <h2>📊 How you compare to others</h2>
+
+    <% if (comparison && comparison.you) { %>
+      <p>
+        Based on our professional dataset of students screentime, the average screen time for
+        <strong><%= comparison.population.ageGroup %></strong> is
+        <strong><%= comparison.population.avgScreenTime %> hours/day</strong>
+        (sample size: <%= comparison.population.sampleSize %> people).
+      </p>
+
+      <p>
+        Your latest logged screen time is
+        <strong><%= comparison.you.screenTime %> hours</strong>.
+      </p>
+
+      <p><em><%= comparison.interpretation %></em></p>
+    <% } else { %>
+      <p class="muted">
+        Log your screen time on the <a href="/log">Log</a> page to see how you compare
+        to the wider population.
+      </p>
+    <% } %>
+  </section>
+
 
   <section class="dashboard">
     <h2>🌱 Cozy Alternatives</h2>
@@ -29,33 +64,35 @@
     </ul>
   </section>
 
+
   <footer>
-    <p>&copy; 2025 Mindful Screen Time App</p>
+    <p>&copy; 2025 Blink</p>
   </footer>
 
   <!-- ✅ Screen Time Tracker -->
   <script>
     const startTime = Date.now();
 
-    // Update the on-page counter live (optional)
+    // Live counter
     const span = document.getElementById('blink-time');
     setInterval(() => {
       const secs = Math.round((Date.now() - startTime) / 1000);
       span.textContent = (Number(<%- JSON.stringify(totalTime) %>) + secs).toString();
     }, 1000);
-/*
+
     window.addEventListener('beforeunload', () => {
       const duration = Math.round((Date.now() - startTime) / 1000);
       navigator.sendBeacon
-        ? navigator.sendBeacon('/track-time', new Blob([JSON.stringify({ duration })], { type: 'application/json' }))
+        ? navigator.sendBeacon(
+            '/track-time',
+            new Blob([JSON.stringify({ duration })], { type: 'application/json' })
+          )
         : fetch('/track-time', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ duration })
-            
           });
     });
-    */
   </script>
 </body>
 </html>

@@ -137,3 +137,20 @@ ul li {
   border-radius: 8px;
   box-shadow: 0 0 5px rgba(255, 128, 171, 0.2);
 }
+
+/* Mascot Link Styling */
+a.mascot {
+  text-decoration: none;
+  color: inherit;     /* Keep the same color as normal text or its parent */
+}
+
+a.mascot:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+
+a.mascot1 {
+  text-decoration: none;
+  color: inherit;     /* Keep the same color as normal text or its parent */
+}
