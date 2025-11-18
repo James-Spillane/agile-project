@@ -42,11 +42,13 @@
       </p>
 
       <p>
-        Your latest logged screen time is
-        <strong><%= comparison.you.screenTime %> hours</strong>.
+        Your usage is higher than
+        <strong><%= comparison.percentile %>%</strong>
+        of people in the <%= stats.ageGroup %> group.
       </p>
 
       <p><em><%= comparison.interpretation %></em></p>
+
     <% } else { %>
       <p class="muted">
         Log your screen time on the <a href="/book">Log</a> page to see how you compare

@@ -4,7 +4,20 @@ const router = express.Router();
 const Entry = require('../models/Entry');  // the same model you used for /api/entries
 const PopulationStat = require('../models/PopulationStat');
 
+// helper: returns percentage of people with value <= user's value
+function percentileRank(sortedArray, value) {
+  if (!sortedArray || !sortedArray.length) return null;
 
+  let countBelowOrEqual = 0;
+  for (const v of sortedArray) {
+    if (v <= value) countBelowOrEqual++;
+    else break; // array is sorted, so we can stop early
+  }
+
+  return Math.round((countBelowOrEqual / sortedArray.length) * 100);
+}
+
+// GET /screen-time page
 router.get('/screen-time', async (req, res) => {
   try {
     // For now, just use 'all' group.
@@ -26,18 +39,22 @@ router.get('/screen-time', async (req, res) => {
 
     let comparison = null;
     if (pop && last) {
-      let relative;
-      if (last.screenTime < pop.p25)       relative = 'below most people (lower quartile)';
-      else if (last.screenTime < pop.p50)  relative = 'below average';
-      else if (last.screenTime < pop.p75)  relative = 'around average to slightly high';
-      else                                 relative = 'higher than most people (upper quartile)';
+      const percentile = percentileRank(pop.distribution || [], last.screenTime);
+
+      const you = { screenTime: last.screenTime, ageGroup };
+
+      const interpretation = percentile !== null
+        ? `Your screen time is higher than ${percentile}% of people in the ${ageGroup} group.`
+        : 'Not enough population data to calculate a percentile.';
 
       comparison = {
         population: pop,
-        you: { screenTime: last.screenTime, ageGroup },
-        interpretation: `Your latest screen time (${last.screenTime}h) is ${relative} for the ${ageGroup} group.`
+        you,
+        percentile,
+        interpretation
       };
     }
+
 
     res.render('screen-time', {
       title: 'Screen Time',

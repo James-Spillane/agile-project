@@ -95,14 +95,17 @@ function bucketAge(n) {
     // Compute stats
     const docs = Object.entries(buckets).map(([ageGroup, values]) => {
       const avg = values.reduce((a, b) => a + b, 0) / values.length;
+      const sorted = [...values].sort((a, b) => a - b);
+      
       return {
         ageGroup,
         avgScreenTime: Number(avg.toFixed(2)),
         p25: Number(percentile(values, 25).toFixed(2)),
         p50: Number(percentile(values, 50).toFixed(2)),
         p75: Number(percentile(values, 75).toFixed(2)),
-        sampleSize: values.length
-      };
+        sampleSize: values.length,
+        distribution: sorted    // store distribution array
+    };
     });
 
     // Persist

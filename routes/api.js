@@ -66,6 +66,18 @@ router.get('/population', async (req, res) => {
   }
 });
 
+function percentileRank(sortedArray, value) {
+  if (!sortedArray.length) return null;
+
+  let countBelow = 0;
+  for (let v of sortedArray) {
+    if (v <= value) countBelow++;
+    else break; // array is sorted so we can stop early
+  }
+
+  return Math.round((countBelow / sortedArray.length) * 100);
+}
+
 // Compare latest user entry vs population stats
 // GET /api/comparison?ageGroup=18-24  (defaults to 'all')
 router.get('/comparison', async (req, res) => {
