@@ -12,7 +12,6 @@
     <nav class="navbar">
       <a href="/">🏠 Back to Home</a> |
       <a href="/book">Log screen time</a> |
-      <a href="/view-time-test/0" class="button-link"> View Screen Time Summary</a>
       <a href="/help">Help</a> |
       <a href="/about">About</a>
     </nav>
@@ -20,6 +19,7 @@
 
 
     <h1><%= title %></h1>
+    
     <p>
       📱 People aged 18-24 spend an average of
       <strong><%= stats.averageHours %> hours</strong> on screens daily.
@@ -57,11 +57,12 @@
         <strong><%= comparison.population.avgScreenTime %> hours/day</strong>
         (sample size: <%= comparison.population.sampleSize %> people).
       </p>
-
+      
       <p>
         Your usage is higher than
         <strong><%= comparison.percentile %>%</strong>
         of people in the <%= stats.ageGroup %> group.
+        
       </p>
 
       <p><em><%= comparison.interpretation %></em></p>
@@ -72,24 +73,20 @@
         to the wider population.
       </p>
     <% } %>
-  </section>
-
-
-
-  <section class="dashboard">
-     <% if (typeof message !== 'undefined' && message) { %>
-    <section class="feedback-box">
-     <h2><a href="/mascot" class="mascot2">☎️</a> Your Screen Time Summary</h2>
-      <ul><li><%= message %></li></ul>
-    </section>
-    <% } %>
-  
+    <% if (recommendations && recommendations.length) { %>
+  <div class="recommendation-box" style="max-width:720px; margin:1.5rem auto; background:#fff0f5; padding:1rem; border-radius:8px;">
+    <h2>🛠️ Recommendations</h2>
     <ul>
       <% recommendations.forEach(r => { %>
         <li><%= r %></li>
       <% }) %>
     </ul>
+  </div>
+<% } %>
+
+
   </section>
+
 
 
   <footer>
