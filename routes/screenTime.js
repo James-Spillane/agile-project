@@ -22,38 +22,25 @@ function percentileRank(sortedArray, value) {
 router.get('/screen-time', async (req, res) => {
   try {
     let ageGroup = 'all';
-
-    // population stats
     let pop = await PopulationStat.findOne({ ageGroup });
-
-    // if no "all", fall back to first available group
     if (!pop) {
       pop = await PopulationStat.findOne();
       if (pop) ageGroup = pop.ageGroup;
     }
 
-    // latest user entry
     const last = await Entry.findOne().sort({ createdAt: -1 });
-
     let comparison = null;
-    let lastEntryHours = null;          // ✅ define before use
-
-    if (last) {
-      lastEntryHours = last.screenTime;
-    }
+    let lastEntryHours = last ? last.screenTime : null;
 
     if (pop && last) {
       const percentile = percentileRank(pop.distribution || [], last.screenTime);
-
-      const you = { screenTime: last.screenTime, ageGroup };
-
       const interpretation = percentile !== null
         ? `Your screen time is higher than ${percentile}% of people in the ${ageGroup} group.`
         : 'Not enough population data to calculate a percentile.';
 
       comparison = {
         population: pop,
-        you,
+        you: { screenTime: last.screenTime, ageGroup },
         percentile,
         interpretation
       };
@@ -74,7 +61,7 @@ router.get('/screen-time', async (req, res) => {
         'Set one hour as a no-phone zone before bed'
       ],
       comparison,
-      lastEntryHours              // ✅ passed into view
+      lastEntryHours
     });
   } catch (err) {
     console.error('Error in GET /screen-time:', err);
@@ -82,21 +69,61 @@ router.get('/screen-time', async (req, res) => {
   }
 });
 
-// POST /track-time → log usage from beforeunload beacon
-router.post('/track-time', async (req, res) => {
-  try {
-    const { duration = 0 } = req.body; // seconds
-    const hours = Number((duration / 3600).toFixed(2));
+// GET /track-time-test → starts from 0
+router.get('/track-time-test', (req, res) => {
+  const duration = 0;
+  const Hoursaverage = 5;
+  const message = `You've just started tracking your screen time.`;
+  const recommendations = [
+    'Try grayscale mode for a day',
+    'Disable non-essential notifications',
+    'Charge your phone outside the bedroom',
+    'Set 2 × 25-min focus blocks'
+  ];
 
-    await Entry.create({
-      screenTime: hours
-    });
-
-    res.status(201).json({ ok: true });
-  } catch (err) {
-    console.error('Error in POST /track-time:', err);
-    res.status(500).json({ ok: false, error: err.message });
-  }
+  res.render('screen-time', {
+    title: 'Screen Time',
+    stats: { ageGroup: '18–24', averageHours: Hoursaverage, topApps: ['TikTok','Instagram','YouTube'] },
+    totalTime: duration,
+    recommendations,
+    message,
+    comparison: null,
+    lastEntryHours: null
+  });
 });
 
+// GET /view-time-test/:duration
+router.get('/view-time-test/:duration', (req, res) => {
+  const duration = parseInt(req.params.duration);
+  const hours = Math.round((duration / 3600) * 100) / 100;
+  const Hoursaverage = 5;
+  let message = '';
+  let recommendations = [];
+
+  if (hours < Hoursaverage) {
+    message = `Great job! You spent less time than the average of ${Hoursaverage} hours.`;
+    recommendations = ['Good job for keeping your screen time low, buddy'];
+  } else if (hours === Hoursaverage) {
+    message = `You matched the average screen time of ${Hoursaverage} hours.`;
+    recommendations = ['You’re right on track. Keep it up!'];
+  } else {
+    message = `You spent more time than the average of ${Hoursaverage} hours. Consider reducing your screen time for better well-being.`;
+    recommendations = [
+      'Touch some grass',
+      'Disable non-essential notifications',
+      'Charge your phone outside the bedroom',
+      'Set 2 × 25-min focus blocks'
+    ];
+  }
+
+  res.render('screen-time', {
+    title: 'Screen Time',
+    stats: { ageGroup: '18–24', averageHours: Hoursaverage, topApps: ['TikTok','Instagram','YouTube'] },
+    totalTime: duration,
+    recommendations,
+    message,
+    comparison: null,
+    lastEntryHours: null
+  });
+});
 module.exports = router;

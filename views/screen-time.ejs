@@ -15,6 +15,13 @@
       <a href="/help">Help</a> |
       <a href="/about">About</a>
     </nav>
+    <% if (typeof message !== 'undefined' && message) { %>
+    <section class="feedback-box">
+      <h2>📝 Your Screen Time Summary</h2>
+      <p><%= message %></p>
+    </section>
+    <% } %>
+
 
     <h1><%= title %></h1>
     <p>
@@ -45,7 +52,7 @@
 
   <!-- NEW: Kaggle comparison card -->
   <section class="card" style="max-width:720px; margin:1.5rem auto;">
-    <h2>📊 How you compare to others</h2>
+    <h2> How you compare to others</h2>
 
     <% if (comparison && comparison.you) { %>
       <p>
