@@ -81,6 +81,7 @@
       span.textContent = (Number(<%- JSON.stringify(totalTime) %>) + secs).toString();
     }, 1000);
 
+    /*
     window.addEventListener('beforeunload', () => {
       const duration = Math.round((Date.now() - startTime) / 1000);
       navigator.sendBeacon
@@ -94,6 +95,7 @@
             body: JSON.stringify({ duration })
           });
     });
+    */
   </script>
 </body>
 </html>
