@@ -123,6 +123,23 @@ footer {
   background-color: #ffe4ec;
   border-top: 2px solid #f48fb1;
 }
+.mascot2 {
+  display: inline-block;
+  font-size: 2rem; /* adjust size */
+  animation: shake 0.3s infinite;
+}
+.mascot2 {
+  text-decoration: none;
+  color: inherit; /* or set a custom color */
+}
+
+@keyframes shake {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(2px, 0) rotate(5deg); }
+  50% { transform: translate(-2px, 0) rotate(-5deg); }
+  75% { transform: translate(2px, 0) rotate(5deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
 
 /* Booking List */
 ul {
