@@ -9,5 +9,10 @@ router.get('/mascot', (req, res) => {
     res.render('mascot');
 });
 
+router.get('/bath', (req, res) => {
+    res.render('bath');
+});
+
+
 
 module.exports = router;

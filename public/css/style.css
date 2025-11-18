@@ -163,3 +163,7 @@ a.mascot1 {
 canvas{
     margin: 0 auto;
     }
+
+a.bath {
+    text-decoration: none;
+}
