@@ -13,6 +13,10 @@ router.get('/bath', (req, res) => {
     res.render('bath');
 });
 
+router.get('/help', (req, res) => {
+    res.render('help');
+});
+
 
 
 module.exports = router;
