@@ -56,7 +56,7 @@ router.get('/screen-time', async (req, res) => {
       } else {
         message = `You spent more time than the average of ${Hoursaverage} hours. Consider reducing your screen time for better well-being.`;
         recommendations = [
-          'Touch some grass 🌱',
+          'Go out and have fun with your friends',
           'Switch off notifications you don’t need',
           'Try a fun offline activity',
           'Charge your phone outside the bedroom',
