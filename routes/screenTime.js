@@ -1,4 +1,3 @@
-// routes/screenTime.js
 const express = require('express');
 const router = express.Router();
 
@@ -8,31 +7,27 @@ const PopulationStat = require('../models/PopulationStat');
 // helper: returns percentage of people with value <= user's value
 function percentileRank(sortedArray, value) {
   if (!sortedArray || !sortedArray.length) return null;
-
   let countBelowOrEqual = 0;
   for (const v of sortedArray) {
     if (v <= value) countBelowOrEqual++;
-    else break; // sorted, so we can stop
+    else break;
   }
-
   return Math.round((countBelowOrEqual / sortedArray.length) * 100);
 }
 
-// GET /screen-time → show stats + Kaggle comparison
 router.get('/screen-time', async (req, res) => {
   try {
-    let ageGroup = 'all';
-    let pop = await PopulationStat.findOne({ ageGroup });
-    if (!pop) {
-      pop = await PopulationStat.findOne();
-      if (pop) ageGroup = pop.ageGroup;
-    }
+    // force age group 18-24
+    const ageGroup = '18-24';
+    const pop = await PopulationStat.findOne({ ageGroup });
 
+    // latest user entry
     const last = await Entry.findOne().sort({ createdAt: -1 });
-    let comparison = null;
-    let lastEntryHours = last ? last.screenTime : null;
+    const lastEntryHours = last ? last.screenTime : null;
 
-    if (pop && last) {
+    // Kaggle comparison
+    let comparison = null;
+    if (lastEntryHours !== null && pop) {
       const percentile = percentileRank(pop.distribution || [], last.screenTime);
       const interpretation = percentile !== null
         ? `Your screen time is higher than ${percentile}% of people in the ${ageGroup} group.`
@@ -46,13 +41,12 @@ router.get('/screen-time', async (req, res) => {
       };
     }
 
-    // Dynamic feedback logic stays inside the route
+    // Recommendations
     let message = '';
     let recommendations = [];
-    if (lastEntryHours !== null && pop) {
-      const Hoursaverage = pop && pop.avgScreenTime ? pop.avgScreenTime : 5;
+    let Hoursaverage = pop && pop.avgScreenTime ? pop.avgScreenTime : 5;
 
-
+    if (lastEntryHours !== null) {
       if (lastEntryHours < Hoursaverage) {
         message = `Great job! You spent less time than the average of ${Hoursaverage} hours.`;
         recommendations = ['Nice work keeping your screen time low!'];
@@ -75,7 +69,7 @@ router.get('/screen-time', async (req, res) => {
       title: 'Screen Time',
       stats: {
         ageGroup,
-        averageHours: pop ? pop.avgScreenTime : 5,
+        averageHours: Hoursaverage,
         topApps: ['TikTok', 'Instagram', 'YouTube']
       },
       totalTime: 0,
@@ -84,9 +78,11 @@ router.get('/screen-time', async (req, res) => {
       comparison,
       lastEntryHours
     });
+
   } catch (err) {
     console.error('Error in GET /screen-time:', err);
     res.status(500).send('Error loading screen time page');
   }
 });
+
 module.exports = router;

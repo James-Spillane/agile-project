@@ -74,14 +74,12 @@
       </p>
     <% } %>
     <% if (recommendations && recommendations.length) { %>
-  <div class="recommendation-box" style="max-width:720px; margin:1.5rem auto; background:#fff0f5; padding:1rem; border-radius:8px;">
-    <h2>🛠️ Recommendations</h2>
-    <ul>
-      <% recommendations.forEach(r => { %>
-        <li><%= r %></li>
-      <% }) %>
-    </ul>
-  </div>
+  <h2> Recommendations</h2>
+  <ul>
+    <% recommendations.forEach(r => { %>
+      <li><%= r %></li>
+    <% }) %>
+  </ul>
 <% } %>
 
 
@@ -93,7 +91,7 @@
     <p>&copy; 2025 Blink</p>
   </footer>
 
-  <!-- ✅ Screen Time Tracker -->
+  <!--  Screen Time Tracker -->
   <script>
     const startTime = Date.now();
 
