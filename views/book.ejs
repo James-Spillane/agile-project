@@ -9,18 +9,7 @@
 </head>
 <body>
   <header>
-    <h1>Blink • Log Screen Time</h1>
-    <p>Your cozy companion for mindful screen time <a href="/mascot" class="mascot1">🐻</a></p>
-    <nav class="navbar">
-      <a href="/">🏠 Home</a> |
-      <a href="/screen-time">Screen Time Tools</a> |
-<<<<<<< HEAD
-      <a href="/view-time-test/0" class="button-link"> View Screen Time Summary</a> |
-=======
->>>>>>> 135a4a972831edbbdc3863c2792e5d03c28765dc
-      <a href="/about">About</a> |
-      <a href="/help">Help</a>
-    </nav>
+  <%- include('partials/header') %>
   </header>
 
   <main class="card" style="max-width: 560px; margin: 1.5rem auto;">
@@ -184,7 +173,7 @@ console.log(my_regression)
         form.reset();
         loadRecent();
       } catch(err){
-        msg.textContent = '❌ Failed to save entry';
+        msg.textContent = ' Failed to save entry';
         console.error(err);
       }
     });
