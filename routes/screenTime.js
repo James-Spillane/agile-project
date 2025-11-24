@@ -1,4 +1,3 @@
-// routes/screenTime.js
 const express = require('express');
 const router = express.Router();
 
@@ -8,31 +7,27 @@ const PopulationStat = require('../models/PopulationStat');
 // helper: returns percentage of people with value <= user's value
 function percentileRank(sortedArray, value) {
   if (!sortedArray || !sortedArray.length) return null;
-
   let countBelowOrEqual = 0;
   for (const v of sortedArray) {
     if (v <= value) countBelowOrEqual++;
-    else break; // sorted, so we can stop
+    else break;
   }
-
   return Math.round((countBelowOrEqual / sortedArray.length) * 100);
 }
 
-// GET /screen-time → show stats + Kaggle comparison
 router.get('/screen-time', async (req, res) => {
   try {
-    let ageGroup = 'all';
-    let pop = await PopulationStat.findOne({ ageGroup });
-    if (!pop) {
-      pop = await PopulationStat.findOne();
-      if (pop) ageGroup = pop.ageGroup;
-    }
+    // force age group 18-24
+    const ageGroup = '18-24';
+    const pop = await PopulationStat.findOne({ ageGroup });
 
+    // latest user entry
     const last = await Entry.findOne().sort({ createdAt: -1 });
-    let comparison = null;
-    let lastEntryHours = last ? last.screenTime : null;
+    const lastEntryHours = last ? last.screenTime : null;
 
-    if (pop && last) {
+    // Kaggle comparison
+    let comparison = null;
+    if (lastEntryHours !== null && pop) {
       const percentile = percentileRank(pop.distribution || [], last.screenTime);
       const interpretation = percentile !== null
         ? `Your screen time is higher than ${percentile}% of people in the ${ageGroup} group.`
@@ -46,84 +41,48 @@ router.get('/screen-time', async (req, res) => {
       };
     }
 
+    // Recommendations
+    let message = '';
+    let recommendations = [];
+    let Hoursaverage = pop && pop.avgScreenTime ? pop.avgScreenTime : 5;
+
+    if (lastEntryHours !== null) {
+      if (lastEntryHours < Hoursaverage) {
+        message = `Great job! You spent less time than the average of ${Hoursaverage} hours.`;
+        recommendations = ['Nice work keeping your screen time low!'];
+      } else if (lastEntryHours === Hoursaverage) {
+        message = `You matched the average screen time of ${Hoursaverage} hours.`;
+        recommendations = ['You’re on track. Keep it up!'];
+      } else {
+        message = `You spent more time than the average of ${Hoursaverage} hours. Consider reducing your screen time for better well-being.`;
+        recommendations = [
+          'Go out and have fun with your friends',
+          'Switch off notifications you don’t need',
+          'Try a fun offline activity',
+          'Charge your phone outside the bedroom',
+          'Set a 1-hour phone-free window before bed'
+        ];
+      }
+    }
+
     res.render('screen-time', {
       title: 'Screen Time',
       stats: {
         ageGroup,
-        averageHours: pop ? pop.avgScreenTime : 0,
+        averageHours: Hoursaverage,
         topApps: ['TikTok', 'Instagram', 'YouTube']
       },
       totalTime: 0,
-      recommendations: [
-        'Try grayscale mode for a day',
-        'Disable non-essential notifications',
-        'Charge your phone outside the bedroom',
-        'Set one hour as a no-phone zone before bed'
-      ],
+      recommendations,
+      message,
       comparison,
       lastEntryHours
     });
+
   } catch (err) {
     console.error('Error in GET /screen-time:', err);
     res.status(500).send('Error loading screen time page');
   }
 });
 
-// GET /track-time-test → starts from 0
-router.get('/track-time-test', (req, res) => {
-  const duration = 0;
-  const Hoursaverage = 5;
-  const message = `You've just started tracking your screen time.`;
-  const recommendations = [
-    'Try grayscale mode for a day',
-    'Disable non-essential notifications',
-    'Charge your phone outside the bedroom',
-    'Set 2 × 25-min focus blocks'
-  ];
-
-  res.render('screen-time', {
-    title: 'Screen Time',
-    stats: { ageGroup: '18–24', averageHours: Hoursaverage, topApps: ['TikTok','Instagram','YouTube'] },
-    totalTime: duration,
-    recommendations,
-    message,
-    comparison: null,
-    lastEntryHours: null
-  });
-});
-
-// GET /view-time-test/:duration
-router.get('/view-time-test/:duration', (req, res) => {
-  const duration = parseInt(req.params.duration);
-  const hours = Math.round((duration / 3600) * 100) / 100;
-  const Hoursaverage = 5;
-  let message = '';
-  let recommendations = [];
-
-  if (hours < Hoursaverage) {
-    message = `Great job! You spent less time than the average of ${Hoursaverage} hours.`;
-    recommendations = ['Good job for keeping your screen time low, buddy'];
-  } else if (hours === Hoursaverage) {
-    message = `You matched the average screen time of ${Hoursaverage} hours.`;
-    recommendations = ['You’re right on track. Keep it up!'];
-  } else {
-    message = `You spent more time than the average of ${Hoursaverage} hours. Consider reducing your screen time for better well-being.`;
-    recommendations = [
-      'Touch some grass',
-      'Disable non-essential notifications',
-      'Charge your phone outside the bedroom',
-      'Set 2 × 25-min focus blocks'
-    ];
-  }
-
-  res.render('screen-time', {
-    title: 'Screen Time',
-    stats: { ageGroup: '18–24', averageHours: Hoursaverage, topApps: ['TikTok','Instagram','YouTube'] },
-    totalTime: duration,
-    recommendations,
-    message,
-    comparison: null,
-    lastEntryHours: null
-  });
-});
 module.exports = router;

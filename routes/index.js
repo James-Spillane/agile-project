@@ -16,6 +16,10 @@ router.get('/bath', (req, res) => {
 router.get('/help', (req, res) => {
     res.render('help');
 });
+router.get('/about', (req, res) => {
+  res.render('about');
+});
+
 
 
 
