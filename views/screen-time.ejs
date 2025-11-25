@@ -11,13 +11,11 @@
   <header>
     <nav class="navbar">
       <a href="/">🏠 Back to Home</a> |
-      <a href="/book">Log screen time</a> |
+      <a href="/book">Log screen time</a> | 
       <a href="/help">Help</a> |
       <a href="/about">About</a>
     </nav>
     
-
-
     <h1><%= title %></h1>
     
     <p>
@@ -64,6 +62,7 @@
         of people in the <%= stats.ageGroup %> group.
         
       </p>
+      <%- include('partials/header') %>
 
       <p><em><%= comparison.interpretation %></em></p>
 

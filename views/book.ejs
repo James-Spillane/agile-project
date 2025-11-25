@@ -9,6 +9,7 @@
 </head>
 <body>
   <header>
+<<<<<<< HEAD
     <h1>Blink • Log Screen Time</h1>
     <p>Your cozy companion for mindful screen time <a href="/mascot" class="mascot1">🐻</a></p>
     <nav class="navbar">
@@ -18,6 +19,9 @@
       <a href="/about">About</a> |
       <a href="/help">Help</a>
     </nav>
+=======
+  <%- include('partials/header') %>
+>>>>>>> 75c1c663410d6e78db03dd635819d46e10949e79
   </header>
 
   <main class="card" style="max-width: 560px; margin: 1.5rem auto;">
@@ -181,7 +185,7 @@ console.log(my_regression)
         form.reset();
         loadRecent();
       } catch(err){
-        msg.textContent = '❌ Failed to save entry';
+        msg.textContent = ' Failed to save entry';
         console.error(err);
       }
     });
