@@ -1,33 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title><%= title %></title>
-  <link rel="stylesheet" href="/public/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookings</title>
+    <link rel="stylesheet" href="/styles.css"> 
 </head>
-<body class="welcome">
-  <header>
-    <h1> Welcome to the Mindful Screen Time App</h1>
-    <p>Your cozy companion for mindful screen time</p>
-    <div class="mascot">🐻</div>
-    <nav>
- 
-  <a href="/book">🏠 Home</a> |
-  <a href="/about">About</a> |
-  <a href="/help">Help</a> |
-  <a href="/screen-time">Screentime Tools</a>
-</nav>
+<body>
+    <header>
+    <a href="/welcome">Back to the HomePage</a>
+    <h1>Display All Logins</h1>
+    <div class="mascot">🐻 I'm watching your bookings grow!</div>
+    <nav class="navbar">
+        <ul>
+            <li><a href="/book">Login</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/help">Help</a></li>
+       
+        </ul>
+    </nav>
+    </header>
 
-  </header>
-  
-
-  <section class="intro">
-    <p>Track your habits, earn cute badges, and give your brain a bubble bath 🛁</p>
-    <a href="/book" class="start-btn">Track Screen Time</a>
-  </section>
-  
-  <footer>
-    <p>&copy; 2025 Mindful Screen Time App</p>
-  </footer>
+    <form action="/view" method="POST"></form>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>User ID</th>
+                <th>Date and Time</th>
+                <th>Card Number</th>
+                <th>Expiry Date</th>
+                <th>Security Code</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% bookings.forEach(booking => { %>
+                <tr>
+                    <td><%= booking.name %></td>
+                    <td><%= booking.userId %></td>
+                    <td><%= booking.dateTime.toLocaleString() %></td>
+                    <td><%= booking.cardDetails.cardNumber %></td>
+                    <td><%= booking.cardDetails.expiry %></td>
+                    <td><%= booking.cardDetails.securityCode %></td>
+                    <td>
+                        <form action="/modify/<%= booking._id %>" method="GET" style="display:inline;">
+                            <button type="submit">Modify</button>
+                        </form>
+                        <form action="/delete/<%= booking._id %>" method="POST" style="display:inline;">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
 </body>
 </html>
