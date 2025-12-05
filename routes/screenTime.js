@@ -17,9 +17,21 @@ function percentileRank(sortedArray, value) {
 
 router.get('/screen-time', async (req, res) => {
   try {
-    // force age group 18-24
     const ageGroup = '18-24';
-    const pop = await PopulationStat.findOne({ ageGroup });
+
+// Try to load from DB, or fall back to a hard-coded example
+let pop = await PopulationStat.findOne({ ageGroup });
+
+if (!pop) {
+  pop = {
+    ageGroup,
+    avgScreenTime: 5,
+    sampleSize: 100,
+    // simple sorted array for percentile calculation
+    distribution: [2, 3, 4, 5, 6, 7, 8]
+  };
+}
+
 
     // latest user entry
     const last = await Entry.findOne().sort({ createdAt: -1 });
